@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    {% include "inc/meta.html" %}
+    <link href="//static.3dker.cn/global/components/preview/preview.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<div>
+    {% include "components/preview.html" %}
+</div>
+
+<script src="//static.3dker.cn/global/js/main.js"></script>
+<script src="//static.3dker.cn/global/components/preview/preview.js"></script>
+<script>
+    Shining.preview3d("http://static.3dker.cn/model/gg.stl", {
+        width : window.innerWidth,
+        height: window.innerHeight
+    }, function (e, data){
+        if( e && e.target.status == 404 ){
+            alert("资源不存在!");
+            return;
+        }
+        console.log(data);
+    });
+</script>
+</body>
+</html>

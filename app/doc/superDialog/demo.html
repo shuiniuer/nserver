@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;  charset=UTF-8" />
+    <title>dialog</title>
+    <script src="//static.3dker.cn/global/js/main.js"></script>
+</head>
+<body>
+<div style="width:1180px;height:2000px;background:#cc0;"></div>
+
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+<div id="dialog" style="height:100px;width:240px;background:#c00;">
+    <div class="close">点我关闭</div>
+</div>
+</body>
+<script type="text/javascript">
+    (function($){
+        $(function(){
+            var dialog = $.dialog({
+                selector:'#dialog',
+                minWidth:1180,
+                timers:[
+                    {
+                        callback: function(paramObj){
+                            alert(paramObj.timer);
+                        },
+                        time: 2000,
+                        paramObj:{
+                            timer: '过了2秒了'
+                        }
+                    }
+                ],
+                buttons:[
+                    {
+                        selector: '.close',
+                        event:'click',
+                        callback: function(paramObj,event){
+                            alert(paramObj.nimei);
+                            this.hide();
+                        },
+                        paramObj:{
+                            nimei: 'nimei'
+                        }
+                    }
+                ]
+            });
+            dialog.show();
+        });
+    })(jQuery);
+</script>
+</html>

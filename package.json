@@ -1,0 +1,41 @@
+{
+  "name": "nserver",
+  "version": "1.0.0",
+  "description": "a server for web developer",
+  "keyworkds": [
+    "develop",
+    "tools",
+    "web",
+    "server",
+    "debug"
+  ],
+  "author": {
+    "name": "shuiniuer27",
+    "email": "shuiniuer27@163.com"
+  },
+  "dependencies": {
+    "coffee-script": ">=1.6",
+    "connect": "2.11.0",
+    "ejs": ">=0.8.4",
+    "html-minifier": "^0.7.2",
+    "iconv-lite": ">=0.2.10",
+    "jade": ">=0.31.1",
+    "less": "1.6.1",
+    "marked": ">=0.2.9",
+    "mime": ">=1.2.9",
+    "mkdirp": ">=0.3.5",
+    "nopt": "~2.2.1",
+    "stylus": ">=0.34"
+  },
+  "main": "./lib/server",
+  "bin": {
+    "fdserver": "./bin/nserver"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "devDependencies": {
+    "autoprefixer-core": "^5.2.1",
+    "postcss": "^4.1.16"
+  }
+}

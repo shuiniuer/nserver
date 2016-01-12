@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>方法懒加载</title>
+    <link rel="stylesheet" type="text/css" href="//static.3dker.cn/global/css/main.css" />
+    <script src="//static.3dker.cn/global/js/main.js"></script>
+    <style>
+        div{
+            height: 1500px;
+            color:#fff;
+            font-size: 64px;
+            font-weight: 700;
+            line-height: 300px;
+            text-align: center;
+        }
+        .floor1{
+            background: #000000;
+        }
+        .floor2{
+            background: #000066;
+        }
+        .floor3{
+            background: #006600;
+        }
+        .floor4{
+            background: #0000cc;
+        }
+        .floor5{
+            background: #003300;
+        }
+        .floor6{
+            background: #660000;
+        }
+        .floor7{
+            background: #000000;
+        }
+    </style>
+</head>
+<body>
+    <div class="floor1 lazyload-fn" data-lazyload-fn-body="demo.lazy.render.lazyFunc1"></div>
+    <div class="floor2 lazyload-fn" data-lazyload-fn-body="demo.lazy.render.lazyFunc2"></div>
+    <div class="floor3 lazyload-fn" data-lazyload-fn-body="demo.lazy.render.lazyFunc3"></div>
+    <div class="floor4 lazyload-fn" data-lazyload-fn-body="demo.lazy.render.lazyFunc4"></div>
+    <div class="floor5 lazyload-fn" data-lazyload-fn-body="demo.lazy.render.lazyFunc5"></div>
+    <div class="floor6 lazyload-fn" data-lazyload-fn-body="demo.lazy.render.lazyFunc6"></div>
+    <div class="floor7 lazyload-fn" data-lazyload-fn-body="demo.lazy.render.lazyFunc7"></div>
+    <script>
+        //使用namespace方法
+        jQuery.namespace('demo.lazy.render');
+        (function($,DLR){
+
+            DLR.lazyFunc1 = function(el){
+                setTimeout(function(){
+                    el.html('加载楼层一！');
+                },1000);
+
+            };
+            DLR.lazyFunc2 = function(el){
+                setTimeout(function(){
+                    el.html('加载楼层二加！');
+                },1000);
+            };
+            DLR.lazyFunc3 = function(el){
+                setTimeout(function(){
+                    el.html('加载楼层三！');
+                },1000);
+            };
+            DLR.lazyFunc4 = function(el){
+                setTimeout(function(){
+                    el.html('加载楼层四！');
+                },1000);
+            };
+            DLR.lazyFunc5 = function(el){
+                setTimeout(function(){
+                    el.html('加载楼层五！');
+                },1000);
+            };
+            DLR.lazyFunc6 = function(el){
+                setTimeout(function(){
+                    el.html('加载楼层六！');
+                },1000);
+            };
+            DLR.lazyFunc7 = function(el){
+                setTimeout(function(){
+                    el.html('加载楼层七！');
+                },1000);
+            };
+            jQuery.datalazyload.register({
+                "containers":$('body')
+            });
+        })(jQuery,demo.lazy.render);
+    </script>
+</body>
+</html>

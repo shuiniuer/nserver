@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>dialog - 演示</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="description" content="国内最大的3D数据平台" />
+    <meta name="keywords" content="3D客，3D数据，3D扫描，3D打印，3D创客平台" />
+    <link rel="stylesheet" type="text/css" href="//static.3dker.cn/global/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="//static.3dker.cn/global/components/dialog/dialog.css" />
+</head>
+<body>
+
+    {% include "components/dialog.html" %}
+
+<style type="text/css">
+    .demo {
+        width:1180px; height:500px; margin:100px auto;
+    }
+    .confirm-demo {
+        width:300px; height:300px;
+    }
+</style>
+
+<div class="demo">
+    <pre>
+        title : "网络错误，请稍后重试!",       //显示出的内容,默认为`网络错误，请稍后重试!`
+        autoHide : true,                    //是否自动隐藏,默认为`true`
+        tapHide : true,                     //是否点击隐藏,默认为`true`
+        autoHideTimeOut : 1400,             //自动隐藏时间,默认为`1400`毫秒
+        showEffect : "fadeIn",              //显示时的动画,默认为`fadeIn`
+        hideEffect : "fadeOut"              //隐藏时的动画,默认为`fadeOut`
+    </pre>
+    <textarea class="confirm-demo">
+        Shining.showDialog({
+            title : "当前模型不存在!"
+        });
+    </textarea>
+    <button class="exec">exec</button>
+</div>
+
+<script type="text/javascript" src="//static.3dker.cn/global/js/main.js"></script>
+<script type="text/javascript" src="//static.3dker.cn/global/components/dialog/dialog.js"></script>
+<script>
+
+    $(".exec").click(function (){
+    eval($(".confirm-demo").val());
+    });
+
+</script>
+</body>
+</html>

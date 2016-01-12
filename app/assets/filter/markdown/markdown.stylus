@@ -1,0 +1,49 @@
+.nav-panel
+	position fixed
+
+	top 30px
+	right 30px
+
+	width 270px
+
+	background #f7f5fa
+
+	.bar
+		margin 4px
+		text-align right
+
+	.plus
+		display none
+
+	&.status-minus
+		.plus
+			display inline
+
+		.minus
+			display none
+
+		.box
+			display none
+			
+			
+
+	.box
+		ul
+			margin 0
+			padding 0
+
+		li
+			list-style none
+
+		a
+			display block
+			padding 5px 20px
+			color #716b7a
+			text-decoration none
+
+			&:hover
+				background #eee	
+
+		.child a
+			padding-left 40px
+		
