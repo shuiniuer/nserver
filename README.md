@@ -16,7 +16,7 @@ nserver是一个使用node js开发的服务器
 
     3. npm install --registry http://registry.cnpmjs.org # 安装依赖库
 
-    4. cp config.json config.json
+    4. cp config.sample.json config.json
 
     5. 参考配置说明修改 config.json [或者联系：水牛儿，QQ：2511615588]
 
