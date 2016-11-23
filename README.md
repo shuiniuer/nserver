@@ -1,3 +1,4 @@
+
 nserver
 =========
 
@@ -15,42 +16,112 @@ nserver是一个使用node js开发的服务器
 
     3. npm install --registry http://registry.cnpmjs.org # 安装依赖库
 
-    4. cp project_config.json.sample project_config.json
+    4. cp config.json config.json
 
-    5. 参考配置说明修改 project_config.json [或者联系：水牛儿，QQ：2511615588]
+    5. 参考配置说明修改 config.json [或者联系：水牛儿，QQ：2511615588]
 
     6. 启动
 
       windows系统
         node bin/nserver
-
+    
       linux/mac系统
         sudo node bin/nserver
 
 
-## project_config.json 说明 [或者联系：水牛儿，QQ：2511615588]
+## config.json 说明 [或者联系：水牛儿，QQ：2511615588]
 
-    [
+    var projectArr = [
+        // h5.sosho.cn
         {
-            "name": "front_html",
-            "root": "C:\\Users\\cc\\www\\front.m.sosho.cn\\html", // 应用所在的本地目录
-            "domain": "dev.m.sosho.cn", // 应用本地开发域名
-            "staticPrefix": "static-m.sosho.cn" // 应用静态资源的引用域名[注：若该应用不需要引入静态资源，则可以省略]
+            name: 'front_mw_front_html',
+            domain: 'front.h5.sosho.cn',
+            rootpaths:[
+                {
+                    from: '/page',
+                    to:'/Users/niuer/www/mw/front.page.sosho.cn/src/html/',
+                    staticPrefix: 'http://front.res.sosho.cn/pageres'
+                },
+                {
+                    from: '',
+                    to: '/Users/niuer/www/mw/front.h5.sosho.cn/html/',
+                    staticPrefix: 'http://front.res.sosho.cn'
+                }
+            ],
+            rewrite: [
+                {
+                    from: '^/page/(.*)$',
+                    to:'/Users/niuer/www/mw/front.page.sosho.cn/src/html/$1'
+                },
+                {
+                    from: '^(.*)$',
+                    to: '/Users/niuer/www/mw/front.h5.sosho.cn/html/$1'
+                }
+            ]
         },
         {
-            "name": "front_static",
-            "root": "C:\\Users\\cc\\www\\front.m.sosho.cn\\static",
-            "domain": "static-m.sosho.cn"
+            name: 'front_mw_front_static',
+            domain: 'front.res.sosho.cn',
+            rootpaths: [
+                {
+                    from: '/pageres',
+                    to:'/Users/niuer/www/mw/front.page.sosho.cn/src/static/'
+                },
+                {
+                    from: '',
+                    to: '/Users/niuer/www/mw/front.h5.sosho.cn/static/'
+                }
+            ],
+            rewrite: [
+                {
+                    from: '^/pageres/(.*)$',
+                    to:'/Users/niuer/www/mw/front.page.sosho.cn/src/static/$1'
+                },
+                {
+                    from: '^(.*)$',
+                    to: '/Users/niuer/www/mw/front.h5.sosho.cn/static/$1'
+                }
+            ]
         }
-    ]
+    ];
+    var noProductFlag = true;
+    var options = process.argv;
+    var imgConf = {};
+    var hostConf = {};
+    var domainConf = {};
+    var staticPrefix = {};
+    var temp = {};
+    for (var i = 0; i < projectArr.length; i++) {
+        temp = projectArr[i];
+        domainConf[temp.domain] = temp.rootpaths;
+        hostConf[temp.domain] = {
+            rewrite: temp.rewrite
+        };
+        noProductFlag = false;
+        temp = {};
+    }
+    if(noProductFlag){
+        throw new Error('你的nserver配置中没有对相应的项目进行相应的配置！');
+    }
+    exports = module.exports = {
+        port: 80,//端口号
+        filters:[
+            'app',
+            'less',
+            'markdown',
+            'html',
+            'jade',
+            'stylus',
+            'delay',
+            'host',
+            'rewrite'
+        ],
+        hosts: hostConf,
+        roots: domainConf
+    };
+
 
 ## host绑定
 
-启动nserver后打开[http://127.0.0.1/host](http://127.0.0.1/host)
-
-      127.0.0.1 dev.m.sosho.cn
-      127.0.0.1 static-m.sosho.cn
-
-[注]
-
-  1. windows系统下面需要给hosts文件添加写入权限 [有疑问请联系：水牛儿，QQ：2511615588]
+      127.0.0.1 front.h5.sosho.cn
+      127.0.0.1 front.res.sosho.cn
