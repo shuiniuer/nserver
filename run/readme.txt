@@ -1,1 +1,0 @@
-这个目录存放fdserver运行的Pid文件
