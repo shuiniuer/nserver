@@ -10,12 +10,10 @@ const REG = /\.git|\.md|\.DS_Store/g;
 
 function filesToLink(files, parent){
 	let html = '';
-	if(parent !== '/'){
-		parent = parent + '/';
-	}
 	files.forEach(function(val, key) {
 		if(!REG.test(val)){
-			html = html + '<a href="'+parent+val+'">'+val+'</a><br/>';
+			let href =  path.join(parent,val);
+			html = html + '<a href="'+href+'">'+val+'</a><br/>';
 		}
 	});
 	return html;
@@ -48,10 +46,10 @@ function hanleFile(file, server, res){
 		res.send(htmlParser(file, server));
 	}else if(extname === '.less'){
 		lessParser(file,server,res);
-	}else if(extname === '.css' | '.js'){
+	}else if(extname === '.js' | '.css'){
 		res.send(fs.readFileSync(file).toString());
 	}else{
-		res.send(fs.readFileSync(file));
+		res.sendFile(file);
 	}
 }
 
@@ -83,8 +81,8 @@ app.get('*', function(req, res) {
 		fs.stat(curPath,function(err,stat){
 			if(err){
 				curPath = path.join(path.dirname(curPath), path.basename(curPath, '.css')+'.less');
-				nextStep(curPath);
 			}
+			nextStep(curPath);
 		});
 	}else{
 		nextStep(curPath);
@@ -93,6 +91,5 @@ app.get('*', function(req, res) {
 });
 
 var server = app.listen(80, function () {
-var port = server.address().port;
-	console.log('静态服务已在' + 80 + '端口启动');
+	console.log('服务已启动');
 });
