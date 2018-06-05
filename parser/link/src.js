@@ -5,7 +5,7 @@ function srcLink(path,staticPrefix){
 };
 
 module.exports = function ( tpl , server){
-  return tpl.replace(srcReg, function (){
+  	return tpl.replace(srcReg, function (){
         return srcLink(arguments[1],server.staticPrefix);
-  });
+  	});
 };

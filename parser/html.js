@@ -1,6 +1,5 @@
 let fs = require("fs");
 let path = require("path");
-let config = require('../config');
 let cssLink = require('./link/css');
 let jsLink = require('./link/js');
 let srcLink = require('./link/src');
