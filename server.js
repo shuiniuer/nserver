@@ -93,7 +93,6 @@ app.get('*', function(req, res) {
 });
 
 var server = app.listen(80, function () {
-var host = server.address().address;
 var port = server.address().port;
 	console.log('静态服务已在' + 80 + '端口启动');
 });
