@@ -8,7 +8,7 @@ let lessParser = require('./parser/less.js');
 let servers = config.servers;
 const REG = /\.git|\.md|\.DS_Store/g;
 
-let typeObj = {
+let fileTypes = {
     '.gif': 'image/gif',
     '.jpeg': 'image/jpeg',
     '.jpg': 'image/jpeg',
@@ -40,8 +40,8 @@ function hanleFile(file, server, res){
 
 	let extname = path.extname(file).toLowerCase();
 
-	if(typeObj[extname]){
-		res.set('Content-Type', typeObj[extname]);
+	if(fileTypes[extname]){
+		res.set('Content-Type', fileTypes[extname]);
 	}
 
 	if(extname === '.html'){
@@ -63,7 +63,7 @@ app.get('*', function(req, res) {
 	});
 
     // 处理rewrite
-    if(server.rewrite.length > 0){
+    if(server.rewrite && server.rewrite.length > 0){
         let rewrite = server.rewrite.find(function(rewrite){
             let reg = new RegExp(rewrite.from);
             return reg.test(reqPath);
