@@ -17,39 +17,31 @@ let fileTypes = {
     '.js': 'text/javascript',
     '.css': 'text/css',
     '.less': 'text/css'
-}
-
-function filesToLink(files, parent){
-	let html = '';
-	files.forEach(function(val, key) {
-		if(!REG.test(val)){
-			let href =  path.join(parent,val);
-			html = html + '<a href="'+href+'">'+val+'</a><br/>';
-		}
-	});
-	return html;
-}
+};
 
 function handleDir(curPath, req, res){
 	fs.readdir(curPath,function(err,files){
-		res.send(filesToLink(files, req.path));
+        let html = '';
+        let parent = req.path;
+        files.forEach(function(val, key) {
+            if(!REG.test(val)){
+                let href =  path.join(parent,val);
+                html = html + '<a href="'+href+'">'+val+'</a><br/>';
+            }
+        });
+		res.send(html);
 	});
 }
 
-function hanleFile(file, server, res){
-
+function handleFile(file, server, res){
 	let extname = path.extname(file).toLowerCase();
-
 	if(fileTypes[extname]){
 		res.set('Content-Type', fileTypes[extname]);
 	}
-
 	if(extname === '.html'){
 		res.send(htmlParser(file, server));
 	}else if(extname === '.less'){
 		lessParser(file,server,res);
-	}else if(extname === '.js' | '.css'){
-		res.send(fs.readFileSync(file).toString());
 	}else{
 		res.sendFile(file);
 	}
@@ -62,7 +54,7 @@ app.get('*', function(req, res) {
 		return server.domain === host;
 	});
 
-    // 处理rewrite
+    // rewrite
     if(server.rewrite && server.rewrite.length > 0){
         let rewrite = server.rewrite.find(function(rewrite){
             let reg = new RegExp(rewrite.from);
@@ -82,14 +74,14 @@ app.get('*', function(req, res) {
 	function nextStep(curPath){
 		fs.stat(curPath,function(err,stat){
 		    if (err) {
-		        res.send('未找到：' + curPath);
+		        res.send('不存在路径：' + reqPath);
 		    }else{
 		    	if(stat.isFile()){
-			    	hanleFile(curPath, server, res);
+                    handleFile(curPath, server, res);
 			    }else if(stat.isDirectory()){
 			    	handleDir(curPath, req, res);
 			    }else{
-			    	res.send('未找到：' + curPath);
+			    	res.send('不存在路径：' + reqPath);
 			    }
 		    }
 		});
