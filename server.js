@@ -8,6 +8,17 @@ let lessParser = require('./parser/less.js');
 let servers = config.servers;
 const REG = /\.git|\.md|\.DS_Store/g;
 
+let typeObj = {
+    '.gif': 'image/gif',
+    '.jpeg': 'image/jpeg',
+    '.jpg': 'image/jpeg',
+    '.png': 'image/png',
+    '.html': 'text/html',
+    '.js': 'text/javascript',
+    '.css': 'text/css',
+    '.less': 'text/css'
+}
+
 function filesToLink(files, parent){
 	let html = '';
 	files.forEach(function(val, key) {
@@ -24,16 +35,7 @@ function handleDir(curPath, req, res){
 		res.send(filesToLink(files, req.path));
 	});
 }
-let typeObj = {
-	'.gif': 'image/gif',
-	'.jpeg': 'image/jpeg',
-	'.jpg': 'image/jpeg',
-	'.png': 'image/png',
-	'.html': 'text/html',
-	'.js': 'text/javascript',
-	'.css': 'text/css',
-	'.less': 'text/css'
-}
+
 function hanleFile(file, server, res){
 
 	let extname = path.extname(file).toLowerCase();
@@ -55,11 +57,27 @@ function hanleFile(file, server, res){
 
 app.get('*', function(req, res) {
 	let host = req.headers.host;
+    let reqPath = req.path;
 	let server = servers.find(function(server){
-		return server.domain == host;
+		return server.domain === host;
 	});
-	let rootPath = server.rootPath;
-	let curPath = rootPath + req.path;
+
+    // 处理rewrite
+    if(server.rewrite.length > 0){
+        let rewrite = server.rewrite.find(function(rewrite){
+            let reg = new RegExp(rewrite.from);
+            return reg.test(reqPath);
+        });
+
+        if(rewrite){
+            let reg = new RegExp(rewrite.from);
+            reqPath.match(reg);
+            server = rewrite;
+            reqPath = RegExp.$1;
+        }
+    }
+
+    let curPath = path.join(server.rootPath,reqPath);
 
 	function nextStep(curPath){
 		fs.stat(curPath,function(err,stat){
@@ -90,6 +108,6 @@ app.get('*', function(req, res) {
 
 });
 
-var server = app.listen(80, function () {
+app.listen(80, function () {
 	console.log('服务已启动');
 });
