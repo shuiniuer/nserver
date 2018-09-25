@@ -54,6 +54,11 @@ app.get('*', function(req, res) {
 		return server.domain === host;
 	});
 
+	if(!server){
+		console.log('nserver没有配置domain为：'+host+'的请求');
+		return;
+	}
+
     // rewrite
     if(server.rewrite && server.rewrite.length > 0){
         let rewrite = server.rewrite.find(function(rewrite){
